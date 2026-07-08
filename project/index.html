@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Δελτίο Ταυτότητας</title>
+    <link class="pwa-manifest" rel="manifest" href="data:application/manifest+json,{%22name%22:%22Gov%20Wallet%20Clone%22,%22short_name%22:%22Wallet%22,%22start_url%22:%22.%22,%22display%22:%22standalone%22,%22background_color%22:%22%23003478%22,%22theme_color%22:%22%23429bdf%22}">
+    <meta name="theme-color" content="#429bdf">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            /* Native Apple/Android system typography stacks */
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Roboto, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            background-color: #000c1a;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            color: #ffffff;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 450px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            background-color: #003478; 
+        }
+
+        /* SEGMENT A: Muted Soft Blue Top Card Header Area */
+        .top-card-segment {
+            background-color: #429bdf;
+            padding-bottom: 0px; 
+            position: relative;
+            z-index: 10;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 18px 12px 18px;
+        }
+
+        .back-btn, .menu-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: -0.3px;
+        }
+
+        .id-profile-block {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 18px 0 18px;
+        }
+
+        .id-meta-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding-top: 2px;
+        }
+
+        .meta-label {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1px;
+            font-weight: 400;
+        }
+
+        .meta-value-lg {
+            font-size: 32px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px; 
+        }
+
+        .meta-value-sm {
+            font-size: 19px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.3px;
+        }
+
+        /* Overlapping photo frame setup */
+        .profile-photo-container {
+            width: 145px;
+            height: 175px;
+            background-color: #ffffff;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            margin-bottom: -45px; 
+            position: relative;
+            z-index: 20;
+        }
+
+        .profile-photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* SEGMENT B: Darker Blue Scrollable Body Area */
+        .bottom-body-segment {
+            flex-grow: 1;
+            background-color: #003478; 
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            padding-top: 45px; 
+        }
+
+        /* High Fidelity Precise Action Buttons Layout */
+        .actions-section {
+            padding: 24px 16px 14px 16px;
+            z-index: 2;
+        }
+
+        .action-row-top {
+            display: grid;
+            grid-template-columns: 1fr 1fr; 
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .btn-action {
+            background-color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            color: #111111;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+
+        .btn-icon-svg {
+            width: 26px;
+            height: 26px;
+            margin-right: 10px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wallet-btn-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+        .wallet-btn-text span {
+            font-size: 11px;
+            color: #111111;
+            font-weight: 400;
+            letter-spacing: -0.1px;
+        }
+        .wallet-btn-text b {
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .scan-text {
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+        }
+
+        /* Completely Centered Wide Main QR Button */
+        .btn-full {
+            width: 100%;
+            background-color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            padding: 13px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center; 
+            color: #111111;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            cursor: pointer;
+        }
+
+        .btn-full-center-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .full-btn-text {
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+        }
+
+        /* Footer Metadata Wrap Block */
+        .footer-meta-block {
+            margin-top: auto; 
+            padding: 25px 20px 35px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .doc-code-section {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            margin-bottom: 8px;
+        }
+        .doc-code-label {
+            font-size: 13px;
+            color: #ffffff;
+            font-weight: 400;
+            letter-spacing: -0.1px;
+        }
+        .doc-code-value {
+            font-size: 13px;
+            color: #ffffff;
+            font-weight: 400; 
+            letter-spacing: -0.1px;
+        }
+        .copy-icon-svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* Grey Disclaimer Text styling */
+        .legal-disclaimer-line {
+            font-size: 12px;
+            color: #a2b4c7;
+            font-weight: 400;
+            text-align: center;
+            line-height: 1.4;
+            letter-spacing: -0.1px;
+        }
+
+        /* Scrollable Details Registry fields */
+        .info-scroll-list {
+            padding: 0 20px 10px 20px;
+            z-index: 2;
+        }
+
+        .info-group {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 14px 0;
+        }
+
+        .info-label {
+            font-size: 11px;
+            color: #92b6de; 
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+
+        .info-value {
+            font-size: 25px;
+            font-weight: 400; 
+            color: #ffffff;
+            letter-spacing: -0.3px;
+        }
+
+        /* Native Quality QR Overlay Modal */
+        .qr-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .qr-modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .qr-modal-card {
+            background-color: #ffffff;
+            width: 85%;
+            max-width: 340px;
+            border-radius: 24px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            transform: scale(0.9);
+            transition: transform 0.25s ease;
+        }
+
+        .qr-modal-overlay.active .qr-modal-card {
+            transform: scale(1);
+        }
+
+        .qr-image-container {
+            width: 220px;
+            height: 220px;
+            margin: 15px 0 25px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qr-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .qr-modal-title {
+            color: #111111;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+            text-align: center;
+        }
+
+        .qr-close-btn {
+            background-color: #003478;
+            color: #ffffff;
+            border: none;
+            width: 100%;
+            padding: 12px 0;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- Segment A: Soft Blue Top Card Block -->
+        <div class="top-card-segment">
+            <header class="header">
+                <button class="back-btn" aria-label="Back">❮</button>
+                <div class="header-title">Δελτίο Ταυτότητας</div>
+                <button class="menu-btn" aria-label="Menu">⋮</button>
+            </header>
+
+            <section class="id-profile-block">
+                <div class="id-meta-info">
+                    <span class="meta-label">Αριθμός:</span>
+                    <span class="meta-value-lg">ΑΟ969777</span>
+                    
+                    <span class="meta-label">Εκδόθηκε:</span>
+                    <span class="meta-value-sm">14/06/2021</span>
+                </div>
+                <div class="profile-photo-container">
+                    <img src="1000002636.jpg?auto=format&fit=crop&q=80&w=400" alt="Profile Photo">
+                </div>
+            </section>
+        </div>
+
+        <!-- Segment B: Darker Blue Scrollable Body Block -->
+        <div class="bottom-body-segment">
+            
+            <section class="actions-section">
+                <div class="action-row-top">
+                    <div class="btn-action">
+                        <div class="btn-icon-svg">
+                            <!-- Traced Apple Passbook Wallet Native Vector -->
+                            <svg viewBox="0 0 48 48" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M40 14H8C5.79086 14 4 15.7909 4 18V36C4 38.2091 5.79086 40 8 40H40C42.2091 40 44 38.2091 44 36V18C44 15.7909 42.2091 14 40 14Z" stroke="#111111" stroke-width="3.5" stroke-linejoin="round"/>
+                                <path d="M4 22H44" stroke="#111111" stroke-width="3.5"/>
+                                <path d="M34 27H44V33H34C32.3431 33 31 31.6569 31 30C31 28.3431 32.3431 27 34 27Z" fill="#ffffff" stroke="#111111" stroke-width="3.5" stroke-linejoin="round"/>
+                                <circle cx="36.5" cy="30" r="1.5" fill="#111111"/>
+                            </svg>
+                        </div>
+                        <div class="wallet-btn-text">
+                            <span>Προσθήκη στο</span><b>Wallet</b>
+                        </div>
+                    </div>
+                    <div class="btn-action">
+                        <div class="btn-icon-svg">
+                            <!-- Traced Quick Scan Crosshairs Matrix Vector -->
+                            <svg viewBox="0 0 48 48" width="25" height="25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14 4H6C4.89543 4 4 4.89543 4 6V14" stroke="#111111" stroke-width="4.5" stroke-linecap="round"/>
+                                <path d="M34 4H42C43.1046 4 44 4.89543 44 6V14" stroke="#111111" stroke-width="4.5" stroke-linecap="round"/>
+                                <path d="M14 44H6C4.89543 44 4 43.1046 4 42V34" stroke="#111111" stroke-width="4.5" stroke-linecap="round"/>
+                                <path d="M34 44H42C43.1046 44 44 43.1046 44 42V34" stroke="#111111" stroke-width="4.5" stroke-linecap="round"/>
+                                <rect x="13" y="13" width="7" height="7" stroke="#111111" stroke-width="3"/>
+                                <rect x="28" y="13" width="7" height="7" stroke="#111111" stroke-width="3"/>
+                                <rect x="13" y="28" width="7" height="7" stroke="#111111" stroke-width="3"/>
+                                <rect x="30" y="30" width="3" height="3" fill="#111111"/>
+                            </svg>
+                        </div>
+                        <span class="scan-text">Quick Scan</span>
+                    </div>
+                </div>
+                
+                <!-- Action trigger for modal -->
+                <div class="btn-full" onclick="openQrModal()">
+                    <div class="btn-full-center-wrap">
+                        <div class="btn-icon-svg" style="margin-right: 8px;">
+                            <!-- Traced Complete 3-Position QR Code Grid Icon -->
+                            <svg viewBox="0 0 48 48" width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4 4H20V20H4V4Z" stroke="#111111" stroke-width="3.5" stroke-linejoin="round"/>
+                                <path d="M10 10H14V14H10V10Z" fill="#111111"/>
+                                <path d="M28 4H44V20H28V4Z" stroke="#111111" stroke-width="3.5" stroke-linejoin="round"/>
+                                <path d="M34 10H38V14H34V10Z" fill="#111111"/>
+                                <path d="M4 28H20V44H4V28Z" stroke="#111111" stroke-width="3.5" stroke-linejoin="round"/>
+                                <path d="M10 34H14V38H10V34Z" fill="#111111"/>
+                                <rect x="28" y="28" width="5" height="5" fill="#111111"/>
+                                <rect x="39" y="28" width="5" height="5" fill="#111111"/>
+                                <rect x="28" y="39" width="5" height="5" fill="#111111"/>
+                                <rect x="36" y="34" width="5" height="5" fill="#111111"/>
+                            </svg>
+                        </div>
+                        <span class="full-btn-text">Προβολή QR κωδικού</span>
+                    </div>
+                </div>
+            </section>
+
+            <main class="info-scroll-list">
+                <div class="info-group">
+                    <div class="info-label">ΕΠΩΝΥΜΟ</div>
+                    <div class="info-value">ΚΑΣΤΡΙΤΗΣ</div>
+                </div>
+                
+                <div class="info-group">
+                    <div class="info-label">SURNAME</div>
+                    <div class="info-value">KASTRITIS</div>
+                </div>
+                
+                <div class="info-group">
+                    <div class="info-label">ONOMA</div>
+                    <div class="info-value">ΓΕΩΡΓΙΟΣ-ΔΗΜΗΤΡΙΟΣ</div>
+                </div>
+                
+                <div class="info-group">
+                    <div class="info-label">GIVEN NAME</div>
+                    <div class="info-value">GEORGIOS-DIMITRIOS</div>
+                </div>
+                
+                <div class="info-group">
+                    <div class="info-label">ΟΝΟΜΑ ΠΑΤΕΡΑ</div>
+                    <div class="info-value">ΕΥΣΤΑΘΙΟΣ</div>
+                </div>
+
+                <div class="info-group">
+                    <div class="info-label">FATHER'S NAME</div>
+                    <div class="info-value">EFSTATHIOS</div>
+                </div>
+
+                <div class="info-group">
+                    <div class="info-label">ΟΝΟΜΑ ΜΗΤΕΡΑΣ (MOTHER'S NAME)</div>
+                    <div class="info-value">ΕΛΕΝΗ</div>
+                </div>
+
+                <div class="info-group">
+                    <div class="info-label">ΗΜ. ΓΕΝΝΗΣΗΣ (DATE OF BIRTH)</div>
+                    <div class="info-value">07/04/2008</div>
+                </div>
+
+                <div class="info-group">
+                    <div class="info-label">ΤΟΠΟΣ ΓΕΝΝΗΣΗΣ (PLACE OF BIRTH)</div>
+                    <div class="info-value">ΑΘΗΝΑ ΑΤΤΙΚΗΣ</div>
+                </div>
+
+                <div class="info-group">
+                    <div class="info-label">ΑΡΧΗ ΕΚΔΟΣΗΣ (ISSUANCE OFFICE)</div>
+                    <div class="info-value">Τ.Α ΚΗΦΙΣΙΑΣ</div>
+                </div>
+            </main>
+
+            <!-- Bottom Information Container Block -->
+            <div class="footer-meta-block">
+                <!-- Document Code Component Row -->
+                <div class="doc-code-section" onclick="navigator.clipboard.writeText('QB65KLlksLoPFk9hjsawKnR')">
+                    <span class="doc-code-label">Κωδικός εγγράφου:</span>
+                    <span class="doc-code-value">QB65KLlksLoPFk9hjsawKnR</span>
+                    <svg class="copy-icon-svg" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                </div>
+                <!-- Dual-Language Legal Disclaimers -->
+                <div class="legal-disclaimer-line">Δεν αποτελεί διεθνές ταξιδιωτικό έγγραφο</div>
+                <div class="legal-disclaimer-line">Not an international travel document</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Dynamic Custom QR Overlay Modal Structure -->
+    <div class="qr-modal-overlay" id="qrOverlay" onclick="closeQrModal(event)">
+        <div class="qr-modal-card" onclick="event.stopPropagation()">
+            <div class="qr-modal-title">QR Κωδικός Ταυτότητας</div>
+            
+            <div class="qr-image-container">
+                <!-- Swap the src attribute value below to use your choice of QR code image -->
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=GovWalletVerificationTokenExample" alt="Custom Identification QR Code">
+            </div>
+            
+            <button class="qr-close-btn" onclick="closeQrModal(event, true)">Κλείσιμο</button>
+        </div>
+    </div>
+
+    <script>
+        // Modal State Control Logic
+        const qrOverlay = document.getElementById('qrOverlay');
+
+        function openQrModal() {
+            qrOverlay.classList.add('active');
+        }
+
+        function closeQrModal(event, force = false) {
+            if (force || event.target === qrOverlay) {
+                qrOverlay.classList.remove('active');
+            }
+        }
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                const b64Sw = 'self.addEventListener("fetch", (e) => { e.respondWith(fetch(e.request)); });';
+                const blob = new Blob([b64Sw], { type: 'text/javascript' });
+                const swUrl = URL.createObjectURL(blob);
+                navigator.serviceWorker.register(swUrl).catch(err => console.log('SW setup skipped', err));
+            });
+        }
+    </script>
+</body>
+</html>
